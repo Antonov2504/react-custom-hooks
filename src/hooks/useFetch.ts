@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
-export const useFetch = (url, options = {}) => {
+export const useFetch = <T>(url: string, options = {}) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [data, setData] = useState(null);
-  const [error, setError] = useState(null);
+  const [data, setData] = useState<T[] | null>(null);
+  const [error, setError] = useState<AxiosError | null>(null);
 
   const getData = useCallback((params = options) => {
     setIsLoading(true);

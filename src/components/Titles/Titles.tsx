@@ -1,5 +1,6 @@
 import React from 'react';
 import { useFetch } from '../../hooks/useFetch';
+import { TPost } from './Titles.types';
 
 export const Titles = () => {
   const {
@@ -7,7 +8,7 @@ export const Titles = () => {
     isLoading,
     error,
     refetch
-  } = useFetch('https://jsonplaceholder.typicode.com/posts');
+  } = useFetch<TPost>('https://jsonplaceholder.typicode.com/posts');
 
   return (
     <div>
@@ -21,7 +22,7 @@ export const Titles = () => {
         </button>
       </div>
       {isLoading && 'Загрузка...'}
-      {error && `Произошла ошибка: ${error.code}`}
+      {error && `Произошла ошибка: ${error.code ?? 'Неизвестная ошибка'}`}
       {data && !isLoading && data.map(item => <div key={item.id}>{item.title}</div>)}
     </div>
   );
