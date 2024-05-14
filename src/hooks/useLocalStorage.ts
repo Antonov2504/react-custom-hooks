@@ -8,15 +8,13 @@ type ReturnValue = [
   }
 ];
 
-type UseLocalStorage = (initialValue: string) => ReturnValue;
+type UseLocalStorage = (key: string, initialValue?: string) => ReturnValue;
 
-const storageKey = 'token';
-
-const getItem = (key: string, initialValue: string | (() => string)) => {
+const getItem = (key: string, initialValue?: string | (() => string)) => {
   const item = localStorage.getItem(key);
 
   if (item) {
-    return item;
+    return JSON.parse(item);
   }
 
   if (initialValue instanceof Function) {
@@ -26,17 +24,17 @@ const getItem = (key: string, initialValue: string | (() => string)) => {
   return initialValue;
 };
 
-export const useLocalStorage: UseLocalStorage = (initialValue: string) => {
-  const [token, setToken] = useState(() => getItem(storageKey, initialValue));
+export const useLocalStorage: UseLocalStorage = (key, initialValue) => {
+  const [token, setToken] = useState(() => getItem(key, initialValue) ?? null);
 
   const setItem = (newValue: string) => {
-    localStorage.setItem(storageKey, newValue);
+    localStorage.setItem(key, JSON.stringify(newValue));
     setToken(newValue);
   };
 
   const removeItem = () => {
-    localStorage.removeItem(storageKey);
-    setToken('');
+    localStorage.removeItem(key);
+    setToken(null);
   };
 
   return [token, {
