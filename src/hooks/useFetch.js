@@ -1,44 +1,41 @@
 import { useCallback, useEffect, useState } from 'react';
+import axios from 'axios';
 
 export const useFetch = (url, options = {}) => {
-  const [state, setState] = useState({
-    data: null,
-    isLoading: true,
-    error: null,
-  });
+  const [isLoading, setIsLoading] = useState(true);
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
 
-  const getData = useCallback(async (params) => {
-    try {
-      const requestUrl = url + `${params ? '?' + new URLSearchParams({ ...params }).toString() : ''}`;
-      const response = await fetch(requestUrl);
-      const responseJson = await response.json();
+  const getData = useCallback((params = options) => {
+    setIsLoading(true);
 
-      if (response.ok) {
-        setState(prev => ({ ...prev, isLoading: false, data: responseJson, error: null }));
-      } else {
-        throw new Error(response.status);
-      }
-    } catch (e) {
-      console.log(e);
-      setState(prev => ({ ...prev, isLoading: false, data: null, error: e }));
-    }
-  }, [url]);
-
-  const refetch = useCallback((options) => {
-    setState(prev => ({ ...prev, isLoading: true, error: null }));
-    getData(options?.params);
-  }, [getData]);
+    axios({
+      method: 'GET',
+      url,
+      ...(params ?? {}),
+    })
+      .then(res => {
+        setData(res.data);
+        setError(null);
+      })
+      .catch(e => {
+        console.log(e);
+        setData(null);
+        setError(e);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, [options, url]);
 
   useEffect(() => {
-    getData(options.params);
-  }, [getData, options.params]);
-
-  const { data, isLoading, error } = state;
+    getData(options);
+  }, []);
 
   return {
     data,
     isLoading,
     error,
-    refetch
+    refetch: getData,
   };
 };
