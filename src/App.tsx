@@ -1,8 +1,8 @@
 import './App.css';
-import { TokenStorage } from './components/TokenStorage';
+import { ViewportContainer } from './components/ViewportContainer';
 
 function App() {
-  return <TokenStorage />;
+  return <ViewportContainer />;
 }
 
 export default App;
