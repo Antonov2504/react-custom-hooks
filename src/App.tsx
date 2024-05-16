@@ -1,8 +1,8 @@
 import './App.css';
-import { TokenStorage } from './components/TokenStorage';
+import { ToggleContainer } from './components/ToggleContainer';
 
 function App() {
-  return <TokenStorage />;
+  return <ToggleContainer />;
 }
 
 export default App;
