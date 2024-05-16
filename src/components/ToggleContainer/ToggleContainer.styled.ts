@@ -9,6 +9,7 @@ export const Container = styled.div<{ color: string; isBoolean: boolean }>`
   padding-bottom: ${({ isBoolean }) => isBoolean ? '70px' : 0};
   background-color: ${({ color }) => color};
   box-sizing: border-box;
+  transition: background-color 0.3s ease-in-out;
 `;
 
 export const Buttons = styled.div`
@@ -33,6 +34,8 @@ export const Button = styled.button`
   line-height: 1.1;
   text-transform: uppercase;
   box-shadow: 1px 8px 15px rgba(255, 255, 255, 0.1);
+  transition: 0.3s ease-in-out;
+  transition-property: background-color, border, box-shadow, color;
   cursor: pointer;
   pointer-events: initial;
 
@@ -74,6 +77,7 @@ export const ButtonColor = styled(Button) <{ color: string }>`
   height: 50px;
   padding: 10px 15px;
   background-color: ${({ color }) => color};
+  border: 1px solid ${({ color }) => color};
   border-radius: 10px;
   font-weight: normal;
   font-size: 16px;
@@ -82,8 +86,8 @@ export const ButtonColor = styled(Button) <{ color: string }>`
 
   &:disabled {
     transform: translateY(-5px);
-    border: 1px solid #cccccc;
+    border: 1px solid #ffffff;
     background-color: transparent;
-    color: #cccccc;
+    color: #ffffff;
   }
 `;
