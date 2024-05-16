@@ -1,8 +1,8 @@
 import './App.css';
-import { TokenStorage } from './components/TokenStorage';
+import { ScrollContainer } from './components/ScrollContainer';
 
 function App() {
-  return <TokenStorage />;
+  return <ScrollContainer />;
 }
 
 export default App;
